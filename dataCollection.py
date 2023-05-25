@@ -23,10 +23,10 @@ while True:
 
         imgCropShape=imgCrop.shape
 
-        aspectRatio = h/w  # If value is above 1 it means height si greater
+        aspectRatio = h/w  # If value is above 1 it means height is greater
 
         if aspectRatio > 1:
-            k = imgSize/h    # Stretching teh height
+            k = imgSize/h    # Stretching the height
             # calculated width according to height
             wCal = math.ceil(k*w)
             imgResize = cv2.resize(imgCrop, (wCal, imgSize))
@@ -41,7 +41,7 @@ while True:
             imgResizeShape = imgResize.shape
             hGap = math.ceil((imgSize - hCal) / 2)
             imgWhite[hGap:hCal + hGap, :] = imgResize
-            
+
         cv2.imshow("ImageCrop", imgCrop)
         cv2.imshow("ImageWhite", imgWhite)
 
