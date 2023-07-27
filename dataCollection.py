@@ -45,15 +45,15 @@ while True:
 
             if aspect_ratio > 1:
                 # If the aspect ratio is greater than 1, crop and resize the hand horizontally
-                k = img_size / h
-                width_calculated = math.ceil(k * w)
+                hand_width_scaling = img_size / h
+                width_calculated = math.ceil(hand_width_scaling * w)
                 hand_resized = cv2.resize(hand_region, (width_calculated, img_size))
                 width_gap = math.ceil((img_size - width_calculated) / 2)
                 white_canvas[:, width_gap:width_calculated + width_gap] = hand_resized
             else:
                 # If the aspect ratio is less than or equal to 1, crop and resize the hand vertically
-                k = img_size / w
-                height_calculated = math.ceil(k * w)
+                hand_height_scaling = img_size / w
+                height_calculated = math.ceil(hand_height_scaling * w)
                 hand_resized = cv2.resize(hand_region, (img_size, height_calculated))
                 height_gap = math.ceil((img_size - height_calculated) / 2)
                 white_canvas[height_gap:height_calculated + height_gap, :] = hand_resized
