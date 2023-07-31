@@ -33,6 +33,8 @@ while True:
             # Get the bounding box of the detected hand
             hand = hands[0]
             x, y, w, h = hand["bbox"]
+            # Determine whether it's a left hand or right hand based on x-coordinate of the bounding box
+            is_right_hand = x < frame.shape[1] // 2
 
             # Create a white canvas to place the cropped and resized hand
             white_canvas = np.ones((img_size, img_size, 3), np.uint8) * 255
@@ -78,10 +80,24 @@ while True:
         # Generate the filename with the formatted timestamp
         image_name = f"{output_folder}/Image_{timestamp}.jpg"
 
-        # Save the image if 's' key is pressed
+        # Save the image and its mirrored version if 's' key is pressed
         if key == ord("s"):
             image_counter += 1
-            cv2.imwrite(image_name, white_canvas)
+            # cv2.imwrite(image_name, white_canvas)
+            if not is_right_hand:
+                # Create a mirrored version of the image and save it with the "_mirrored" suffix
+                mirrored_canvas = cv2.flip(white_canvas, 1)
+                # Generate the filename with the formatted timestamp and "_mirrored" suffix
+                image_name = f"{output_folder}/Image_{timestamp}_mirrored.jpg"
+                print("Left Hand")
+
+            else:
+                # Generate the filename with the formatted timestamp
+                print("Right Hand")
+                image_name = f"{output_folder}/Image_{timestamp}.jpg"
+
+            # Save the image
+            cv2.imwrite(image_name, mirrored_canvas if not is_right_hand else white_canvas)
             print(f"Image saved: {image_name}, Counter: {image_counter}")
 
     except Exception as e:
